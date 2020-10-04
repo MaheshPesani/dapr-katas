@@ -1,6 +1,6 @@
 # Echo Service
 
-```
+```plantuml
 @startuml
 python_sender -> node_receiver: Hello, World
 node_receiver --> python_sender: Received
