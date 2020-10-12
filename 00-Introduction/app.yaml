@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodereceiver
+  labels:
+    app: node
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: node
+  template:
+    metadata:
+      labels:
+        app: node
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/id: "nodereceiver"
+        dapr.io/port: "8088"
+    spec:
+      containers:
+        - name: node
+          image: skyarkitekten/node_receiver
+          ports:
+            - containerPort: 8088
+          imagePullPolicy: Always
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pythonsender
+  labels:
+    app: python
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: python
+  template:
+    metadata:
+      labels:
+        app: python
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/id: "pythonsender"
+    spec:
+      containers:
+        - name: pythonsender
+          image: skyarkitekten/python_sender
+          imagePullPolicy: Always
